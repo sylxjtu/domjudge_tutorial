@@ -67,4 +67,4 @@ sudo docker-compose up -d
 
 ## 添加用户
 
-可以参考`utility`中的代码
+可以参考`utility`中的代码，注意将session id填入`utility/session.txt`
