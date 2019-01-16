@@ -1,0 +1,85 @@
+version: '2'
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    volumes:
+      - /home/!!!YOURUSERNAME!!!/domjudge/data/mysql:/var/lib/mysql
+    ports:
+      - 13306:3306
+    environment:
+      - CONTAINER_TIMEZONE=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=!!!PASSWORD1!!!
+      - MYSQL_USER=domjudge
+      - MYSQL_PASSWORD=!!!PASSWORD2!!!
+      - MYSQL_DATABASE=domjudge
+    command: --max-connections=1000
+  domserver:
+    image: domjudge/domserver:latest
+    restart: always
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    links:
+      - mariadb:mariadb
+    ports:
+      - 12345:80
+    environment:
+      - CONTAINER_TIMEZONE=Asia/Shanghai
+      - MYSQL_HOST=mariadb
+      - MYSQL_ROOT_PASSWORD=!!!PASSWORD1!!!
+      - MYSQL_USER=domjudge
+      - MYSQL_PASSWORD=!!!PASSWORD2!!!
+      - MYSQL_DATABASE=domjudge
+  judgehost_0:
+    image: domjudge/judgehost:latest
+    restart: always
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    links:
+      - domserver:domserver
+    environment:
+      - CONTAINER_TIMEZONE=Asia/Shanghai
+      - DAEMON_ID=0
+      - JUDGEDAEMON_USERNAME=judgehost
+      - JUDGEDAEMON_PASSWORD=!!!JUDGERPASSWORD!!!
+    privileged: true
+  judgehost_1:
+    image: domjudge/judgehost:latest
+    restart: always
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    links:
+      - domserver:domserver
+    environment:
+      - CONTAINER_TIMEZONE=Asia/Shanghai
+      - DAEMON_ID=1
+      - JUDGEDAEMON_USERNAME=judgehost
+      - JUDGEDAEMON_PASSWORD=!!!JUDGERPASSWORD!!!
+    privileged: true
+  judgehost_2:
+    image: domjudge/judgehost:latest
+    restart: always
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    links:
+      - domserver:domserver
+    environment:
+      - CONTAINER_TIMEZONE=Asia/Shanghai
+      - DAEMON_ID=2
+      - JUDGEDAEMON_USERNAME=judgehost
+      - JUDGEDAEMON_PASSWORD=!!!JUDGERPASSWORD!!!
+    privileged: true
+  judgehost_3:
+    image: domjudge/judgehost:latest
+    restart: always
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    links:
+      - domserver:domserver
+    environment:
+      - CONTAINER_TIMEZONE=Asia/Shanghai
+      - DAEMON_ID=3
+      - JUDGEDAEMON_USERNAME=judgehost
+      - JUDGEDAEMON_PASSWORD=!!!JUDGERPASSWORD!!!
+    privileged: true
+  

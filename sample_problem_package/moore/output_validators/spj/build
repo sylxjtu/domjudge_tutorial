@@ -1,0 +1,2 @@
+#!/bin/sh
+g++ -g -O1 -Wall -fstack-protector -D_FORTIFY_SOURCE=2 -fPIE -Wformat -Wformat-security -std=c++11 -pedantic  -fPIE  compare.cpp spj.cpp -o run
